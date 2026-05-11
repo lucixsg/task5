@@ -3,7 +3,8 @@
   "version": "1.0.2",
   "description": "Roman numeral converter website",
   "scripts": {
-    "test:headless": "node run-tests.js"
+    "test": "mocha-headless-chrome -f test.html --args no-sandbox",
+    "lint": "eslint -c eslint.config.js script.js"
   },
   "devDependencies": {
     "chai": "^5.1.2",
