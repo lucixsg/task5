@@ -1,37 +1,36 @@
 name: CI
-
 on:
   push:
     branches: ["main"]
-    
+
 permissions:
   contents: read
   pages: write
-  id-token: write    
+  id-token: write
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set-up Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: 20.x
       - name: Install Dependencies
         run: npm install
       - name: Lint
         run: node_modules/eslint/bin/eslint.js -c eslint.config.js script.js
-        
+
   test:
     runs-on: ubuntu-latest
     needs: lint
     steps:
       - run: echo "🎉 Job triggered by ${{ github.event_name }} event."
       - run: echo "🖥 Running on ${{ runner.os }} server hosted by GitHub!"
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set-up Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: 20.x
       - name: Install Dependencies
@@ -39,16 +38,17 @@ jobs:
       - name: Test
         run: node_modules/.bin/mocha-headless-chrome -f test.html --args no-sandbox
       - run: echo "🍏 Job status is ${{ job.status }}."
-      
+
   build:
     runs-on: ubuntu-latest
     needs: test
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - run: mkdir dist
       - run: cp index.html dist/
       - run: cp script.js dist/
+      - run: cp styles.css dist/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -62,7 +62,7 @@ jobs:
     needs: build
     steps:
       - name: Setup Pages
-        uses: actions/configure-pages@v2
+        uses: actions/configure-pages@v4
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4   
+        uses: actions/deploy-pages@v4
