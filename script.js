@@ -7,7 +7,7 @@
  */
 function integerToRoman(num) {
   // Validate that the number is within the allowed range (1-3999)
-  if (num <= 0 || num >= 4000) {
+  if (typeof num !== 'number' || !Number.isInteger(num) || num <= 0 || num >= 4000) {
     throw new Error('The number must be between 1 and 3999.');
   }
   
